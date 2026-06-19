@@ -1,6 +1,0 @@
-# requirements.txt (save in superstore_app/ root)
-streamlit
-pandas
-numpy
-matplotlib
-plotly
