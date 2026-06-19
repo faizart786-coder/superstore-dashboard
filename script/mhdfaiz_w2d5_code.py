@@ -13,7 +13,7 @@ st.set_page_config(
 @st.cache_data(ttl=600)
 def load_data():
     return pd.read_csv(
-        r"C:\Users\Scalefusion admin\project_4.1\data\superstore_clean.csv",
+        r"data/superstore_clean.csv",
         parse_dates=["order_date", "ship_date"]
     )
 
@@ -326,6 +326,40 @@ with tab4:
     with st.expander("Show Raw Data (First 50 Rows):"):
         st.dataframe(filtered.head(50), use_container_width=True)
 
+st.subheader("Chart Generator")
+
+chart_type = st.selectbox(
+    "Select Chart",
+    ["Bar", "Line"]
+)
+
+if chart_type == "Bar":
+
+    chart_data = (
+        filtered.groupby("Category")["sales"]
+        .sum()
+    )
+
+    st.bar_chart(chart_data)
+
+else:
+
+    chart_data = (
+        filtered.groupby("order_year")["sales"]
+        .sum()
+    )
+
+    st.line_chart(chart_data)
+
+
+
+st.sidebar.download_button(
+    "⬇️ Download Data",
+    data=csv,
+    file_name="superstore_filtered.csv",
+    mime="text/csv")
+
+
 
 
 st.markdown("---")
@@ -340,5 +374,6 @@ st.caption(
     f"{min_year}–{max_year} • "
     f"Built by Muhammed faiz"
 )
+
 
 
